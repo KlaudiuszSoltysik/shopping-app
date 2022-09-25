@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "872895244274",
+    "project_id": "allegro-793ef",
+    "storage_bucket": "allegro-793ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:872895244274:android:0452927b7758aee6692d6b",
+        "android_client_info": {
+          "package_name": "com.example.shopping_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "872895244274-3f7qn4gj6j34p6favh82q28jk01h21bd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQZU8SAgFsNWiMg8kPhkTRHTm6Io3dWHU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "872895244274-3f7qn4gj6j34p6favh82q28jk01h21bd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

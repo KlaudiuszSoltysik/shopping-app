@@ -18,7 +18,7 @@ class Menu extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Text(
-              "Allegro",
+              "allegro",
               textAlign: TextAlign.center,
               style: kBigText,
             ),
@@ -27,14 +27,14 @@ class Menu extends StatelessWidget {
               function: () {
                 Navigator.pushNamed(context, "/log-in");
               },
-              text: "LOG IN",
+              text: "log in",
             ),
             const SizedBox(height: 20),
             Button(
               function: () {
                 Navigator.pushNamed(context, "/register");
               },
-              text: "REGISTER",
+              text: "register",
             ),
             const SizedBox(height: 40),
             Icon(

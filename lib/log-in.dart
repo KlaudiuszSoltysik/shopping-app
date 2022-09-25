@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'components.dart';
 
@@ -28,7 +29,7 @@ class _LogInState extends State<LogIn> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 const Text(
-                  "Allegro",
+                  "allegro",
                   textAlign: TextAlign.center,
                   style: kBigText,
                 ),
@@ -44,11 +45,21 @@ class _LogInState extends State<LogIn> {
                   child: authTextField("email", Icons.account_circle_rounded,
                       false, _emailController),
                 ),
-                const SizedBox(height: 20),
                 Padding(
                   padding: const EdgeInsets.all(16),
                   child: authTextField(
                       "password", Icons.lock, true, _passwordController),
+                ),
+                Button(
+                  function: () {
+                    FirebaseAuth.instance
+                        .signInWithEmailAndPassword(
+                            email: _emailController.text,
+                            password: _passwordController.text)
+                        .then((value) => Navigator.pushNamed(context, "/shop")
+                            .onError((error, stackTrace) => {}));
+                  },
+                  text: "log in",
                 ),
                 const SizedBox(height: 40),
                 Icon(
