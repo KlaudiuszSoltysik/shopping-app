@@ -17,26 +17,33 @@ class Menu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            const Text(
+            Text(
               "allegro",
               textAlign: TextAlign.center,
               style: kBigText,
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
             Button(
               function: () {
                 Navigator.pushNamed(context, "/log-in");
               },
               text: "log in",
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Button(
               function: () {
                 Navigator.pushNamed(context, "/register");
               },
               text: "register",
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 20),
+            Button(
+              function: () {
+                Navigator.pushNamed(context, "/shop");
+              },
+              text: "continue without logging in",
+            ),
+            SizedBox(height: 40),
             Icon(
               Icons.shopping_bag_outlined,
               size: 240,

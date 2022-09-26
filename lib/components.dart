@@ -4,6 +4,7 @@ const kBigText = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontSize: 80,
+  fontWeight: FontWeight.normal,
   fontFamily: "Overpass",
 );
 
@@ -11,13 +12,15 @@ const kMediumText = TextStyle(
   color: Colors.white,
   decoration: TextDecoration.none,
   fontSize: 40,
+  fontWeight: FontWeight.normal,
   fontFamily: "Overpass",
 );
 
 const kSmallText = TextStyle(
-  color: Colors.black,
+  color: Colors.white,
   decoration: TextDecoration.none,
   fontSize: 20,
+  fontWeight: FontWeight.normal,
   fontFamily: "Overpass",
 );
 
@@ -25,14 +28,14 @@ class Button extends StatelessWidget {
   final String text;
   final VoidCallback function;
 
-  Button({super.key, required this.text, required this.function});
+  Button({required this.text, required this.function});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: function,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Container(
           height: 60,
           decoration: BoxDecoration(
@@ -42,7 +45,7 @@ class Button extends StatelessWidget {
             ),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
+            padding: EdgeInsets.symmetric(vertical: 16),
             child: Text(
               text,
               textAlign: TextAlign.center,
@@ -81,7 +84,7 @@ TextField authTextField(String text, IconData icon, bool isPassword,
       fillColor: Colors.white.withOpacity(0.3),
       border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30.0),
-          borderSide: const BorderSide(width: 0, style: BorderStyle.none)),
+          borderSide: BorderSide(width: 0, style: BorderStyle.none)),
     ),
     keyboardType:
         isPassword ? TextInputType.visiblePassword : TextInputType.emailAddress,

@@ -3,15 +3,13 @@ import 'package:provider/provider.dart';
 import 'components.dart';
 import 'providers.dart';
 
-class Register extends StatefulWidget {
+class Reset extends StatefulWidget {
   @override
-  State<Register> createState() => _RegisterState();
+  State<Reset> createState() => _ResetState();
 }
 
-class _RegisterState extends State<Register> {
+class _ResetState extends State<Reset> {
   TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +35,7 @@ class _RegisterState extends State<Register> {
                 ),
                 SizedBox(height: 20),
                 Text(
-                  "Register to use our service",
+                  "We'll send you email with next steps!",
                   textAlign: TextAlign.center,
                   style: kMediumText,
                 ),
@@ -46,25 +44,19 @@ class _RegisterState extends State<Register> {
                     padding: EdgeInsets.all(16),
                     child: authTextField("email", Icons.account_circle_rounded,
                         false, emailController)),
-                Padding(
-                    padding: EdgeInsets.all(16),
-                    child: authTextField(
-                        "password", Icons.lock, true, passwordController)),
-                !isLoading
-                    ? Button(
-                        function: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Provider.of<UserProvider>(context, listen: false)
-                              .emailRegister(emailController.text,
-                                  passwordController.text, context);
-                        },
-                        text: "register",
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      ),
+                Button(
+                  function: () {
+                    Provider.of<UserProvider>(context, listen: false)
+                        .resetPassword(emailController.text, context);
+                  },
+                  text: "reset password",
+                ),
+                SizedBox(height: 40),
+                Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 240,
+                  color: Colors.white.withOpacity(0.9),
+                )
               ],
             ),
           ),

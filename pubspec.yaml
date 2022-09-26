@@ -14,6 +14,13 @@ dependencies:
   provider: ^6.0.3
   firebase_core: ^1.23.0
   firebase_auth: ^3.10.0
+  google_sign_in: ^5.4.2
+  flutter_launcher_icons: ^0.10.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: assets/app_icon.png
 
 dev_dependencies:
   flutter_test:
@@ -28,4 +35,6 @@ flutter:
   fonts:
     - family: Overpass
       fonts:
-        - asset: assets/Overpass-Regular.ttf
+        - asset: assets/fonts/Overpass-Regular.ttf
+        - asset: assets/fonts/Overpass-Bold.ttf
+          weight: 600
