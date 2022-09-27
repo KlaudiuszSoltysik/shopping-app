@@ -53,6 +53,7 @@ class Button extends StatelessWidget {
                 decoration: TextDecoration.none,
                 fontSize: 25,
                 color: Colors.white.withOpacity(0.9),
+                fontWeight: FontWeight.normal,
                 fontFamily: "Overpass",
               ),
             ),
@@ -63,9 +64,15 @@ class Button extends StatelessWidget {
   }
 }
 
-TextField authTextField(String text, IconData icon, bool isPassword,
+TextFormField authTextField(String text, IconData icon, bool isPassword,
     TextEditingController controller) {
-  return TextField(
+  return TextFormField(
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'Please enter some text';
+      }
+      return null;
+    },
     controller: controller,
     obscureText: isPassword,
     enableSuggestions: !isPassword,
@@ -73,6 +80,7 @@ TextField authTextField(String text, IconData icon, bool isPassword,
     cursorColor: Colors.white,
     style: TextStyle(color: Colors.white.withOpacity(0.9)),
     decoration: InputDecoration(
+      errorStyle: TextStyle(color: Colors.teal),
       prefixIcon: Icon(
         icon,
         color: Colors.white70,

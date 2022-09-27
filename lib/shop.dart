@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'components.dart';
-import 'menu.dart';
 
 class Shop extends StatefulWidget {
   @override
@@ -11,6 +9,38 @@ class Shop extends StatefulWidget {
 class _ShopState extends State<Shop> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Material(
+      child: Scaffold(
+        backgroundColor: Colors.amber,
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.deepOrange[900],
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 50,
+              ),
+              Icon(
+                Icons.search,
+                color: Colors.white,
+                size: 50,
+              ),
+              Icon(
+                Icons.logout,
+                color: Colors.white,
+                size: 50,
+              ),
+            ],
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[],
+          ),
+        ),
+      ),
+    );
   }
 }

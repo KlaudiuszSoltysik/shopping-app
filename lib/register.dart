@@ -11,6 +11,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
@@ -42,23 +43,36 @@ class _RegisterState extends State<Register> {
                   style: kMediumText,
                 ),
                 SizedBox(height: 40),
-                Padding(
-                    padding: EdgeInsets.all(16),
-                    child: authTextField("email", Icons.account_circle_rounded,
-                        false, emailController)),
-                Padding(
-                    padding: EdgeInsets.all(16),
-                    child: authTextField(
-                        "password", Icons.lock, true, passwordController)),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      Padding(
+                          padding: EdgeInsets.all(16),
+                          child: authTextField(
+                              "email",
+                              Icons.account_circle_rounded,
+                              false,
+                              emailController)),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: authTextField(
+                            "password", Icons.lock, true, passwordController),
+                      ),
+                    ],
+                  ),
+                ),
                 !isLoading
                     ? Button(
                         function: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Provider.of<UserProvider>(context, listen: false)
-                              .emailRegister(emailController.text,
-                                  passwordController.text, context);
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Provider.of<UserProvider>(context, listen: false)
+                                .emailRegister(emailController.text,
+                                    passwordController.text, context);
+                          }
                         },
                         text: "register",
                       )

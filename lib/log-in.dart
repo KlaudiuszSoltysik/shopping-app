@@ -11,6 +11,7 @@ class LogIn extends StatefulWidget {
 class _LogInState extends State<LogIn> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
   bool isLoading = false;
 
   @override
@@ -41,26 +42,38 @@ class _LogInState extends State<LogIn> {
                   textAlign: TextAlign.center,
                   style: kMediumText,
                 ),
-                SizedBox(height: 40),
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: authTextField("email", Icons.account_circle_rounded,
-                      false, emailController),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: authTextField(
-                      "password", Icons.lock, true, passwordController),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(height: 40),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: authTextField(
+                            "email",
+                            Icons.account_circle_rounded,
+                            false,
+                            emailController),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16),
+                        child: authTextField(
+                            "password", Icons.lock, true, passwordController),
+                      ),
+                    ],
+                  ),
                 ),
                 !isLoading
                     ? Button(
                         function: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          Provider.of<UserProvider>(context, listen: false)
-                              .emailLogIn(emailController.text,
-                                  passwordController.text, context);
+                          if (formKey.currentState!.validate()) {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            Provider.of<UserProvider>(context, listen: false)
+                                .emailLogIn(emailController.text,
+                                    passwordController.text, context);
+                          }
                         },
                         text: "log in",
                       )
@@ -109,9 +122,10 @@ class _LogInState extends State<LogIn> {
                       onPressed: () {
                         setState(() {
                           isLoading = true;
+                          isLoading =
+                              Provider.of<UserProvider>(context, listen: false)
+                                  .googleLogIn(context) as bool;
                         });
-                        Provider.of<UserProvider>(context, listen: false)
-                            .googleLogIn(context);
                       },
                       icon: Image.asset("assets/google_icon.png"),
                       iconSize: 100,

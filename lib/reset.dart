@@ -10,6 +10,7 @@ class Reset extends StatefulWidget {
 
 class _ResetState extends State<Reset> {
   TextEditingController emailController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,14 +41,20 @@ class _ResetState extends State<Reset> {
                   style: kMediumText,
                 ),
                 SizedBox(height: 40),
-                Padding(
+                Form(
+                  key: formKey,
+                  child: Padding(
                     padding: EdgeInsets.all(16),
                     child: authTextField("email", Icons.account_circle_rounded,
-                        false, emailController)),
+                        false, emailController),
+                  ),
+                ),
                 Button(
                   function: () {
-                    Provider.of<UserProvider>(context, listen: false)
-                        .resetPassword(emailController.text, context);
+                    if (formKey.currentState!.validate()) {
+                      Provider.of<UserProvider>(context, listen: false)
+                          .resetPassword(emailController.text, context);
+                    }
                   },
                   text: "reset password",
                 ),

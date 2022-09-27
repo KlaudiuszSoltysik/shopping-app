@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class UserProvider extends ChangeNotifier {
   late String? _email;
@@ -19,40 +20,73 @@ class UserProvider extends ChangeNotifier {
     final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    try {
+      await FirebaseAuth.instance.signInWithCredential(credential);
 
-    notifyListeners();
-    Navigator.popAndPushNamed(context, "/shop");
-  }
-
-  Future emailLogIn(String email, String password, dynamic context) async {
-    await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-
-    if (FirebaseAuth.instance.currentUser == null) {
-      return;
+      Navigator.popAndPushNamed(context, "/shop");
+    } on FirebaseAuthException catch (error) {
+      await Alert(
+              context: context,
+              title: "SOMETHING WENT WRONG",
+              desc: error.message)
+          .show();
     }
-
-    _email = FirebaseAuth.instance.currentUser?.email;
-
-    notifyListeners();
-    Navigator.popAndPushNamed(context, "/shop");
-  }
-
-  Future emailRegister(String email, String password, dynamic context) async {
-    await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: email, password: password);
-
-    if (FirebaseAuth.instance.currentUser == null) {
-      return;
-    }
-
     notifyListeners();
     Navigator.popAndPushNamed(context, "/log-in");
   }
 
+  Future emailLogIn(String email, String password, dynamic context) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+
+      _email = FirebaseAuth.instance.currentUser?.email;
+
+      Navigator.popAndPushNamed(context, "/shop");
+    } on FirebaseAuthException catch (error) {
+      await Alert(
+              context: context,
+              title: "SOMETHING WENT WRONG",
+              desc: error.message)
+          .show();
+    }
+    notifyListeners();
+    Navigator.popAndPushNamed(context, "/log-in");
+  }
+
+  Future emailRegister(String email, String password, dynamic context) async {
+    try {
+      await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      await Alert(context: context, title: "Account created").show();
+
+      Navigator.popAndPushNamed(context, "/log-in");
+    } on FirebaseAuthException catch (error) {
+      await Alert(context: context, title: "Try again", desc: error.message)
+          .show();
+    }
+    notifyListeners();
+    Navigator.popAndPushNamed(context, "/register");
+  }
+
   Future resetPassword(email, context) async {
-    FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-    Navigator.pop(context);
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+
+      await Alert(
+              context: context,
+              title: "EMAIL SENT",
+              desc: "Check your $email account")
+          .show();
+
+      Navigator.popUntil(context, ModalRoute.withName("/"));
+    } on FirebaseAuthException catch (error) {
+      await Alert(
+              context: context,
+              title: "SOMETHING WENT WRONG",
+              desc: error.message)
+          .show();
+    }
+    notifyListeners();
   }
 }
