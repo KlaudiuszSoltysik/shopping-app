@@ -1,13 +1,16 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
-import 'package:shopping_app/providers.dart';
-import 'menu.dart';
-import 'log-in.dart';
-import 'register.dart';
-import 'shop.dart';
-import 'reset.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:firebase_core/firebase_core.dart";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "package:provider/provider.dart";
+import "package:shopping_app/providers.dart";
+import "menu.dart";
+import "log-in.dart";
+import "register.dart";
+import "shop.dart";
+import "reset.dart";
+import "add.dart";
 
 void main() async {
   Provider.debugCheckInvalidValueType = null;
@@ -41,6 +44,7 @@ class MyApp extends StatelessWidget {
         "/register": (context) => Register(),
         "/shop": (context) => Shop(),
         "/reset": (context) => Reset(),
+        "/add": (context) => Add(),
       },
     );
   }

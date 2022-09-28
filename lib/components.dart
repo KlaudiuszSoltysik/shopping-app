@@ -1,4 +1,7 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:flutter/material.dart";
+import 'package:flutter/services.dart';
 
 const kBigText = TextStyle(
   color: Colors.white,
@@ -64,12 +67,42 @@ class Button extends StatelessWidget {
   }
 }
 
+TextFormField textField(String text, TextEditingController controller) {
+  return TextFormField(
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return "Please enter some text";
+      }
+    },
+    controller: controller,
+    keyboardType: TextInputType.number,
+    inputFormatters: [TextInputFormatter],
+    style: TextStyle(
+      color: Colors.white.withOpacity(0.9),
+      fontSize: 24,
+    ),
+    decoration: InputDecoration(
+      errorStyle: TextStyle(color: Colors.teal),
+      labelText: text,
+      labelStyle: TextStyle(
+        color: Colors.white.withOpacity(0.9),
+      ),
+      filled: true,
+      floatingLabelBehavior: FloatingLabelBehavior.never,
+      fillColor: Colors.white.withOpacity(0.3),
+      border: OutlineInputBorder(
+        borderSide: BorderSide(width: 0, style: BorderStyle.none),
+      ),
+    ),
+  );
+}
+
 TextFormField authTextField(String text, IconData icon, bool isPassword,
     TextEditingController controller) {
   return TextFormField(
     validator: (value) {
       if (value == null || value.isEmpty) {
-        return 'Please enter some text';
+        return "Please enter some text";
       }
       return null;
     },

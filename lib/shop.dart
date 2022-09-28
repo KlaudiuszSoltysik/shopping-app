@@ -1,5 +1,8 @@
-import 'package:flutter/material.dart';
-import 'components.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
+import "components.dart";
 
 class Shop extends StatefulWidget {
   @override
@@ -17,20 +20,31 @@ class _ShopState extends State<Shop> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 50,
+              GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.search,
+                  color: Colors.white,
+                  size: 50,
+                ),
               ),
-              Icon(
-                Icons.search,
-                color: Colors.white,
-                size: 50,
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, "/add");
+                },
+                child: Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 50,
+                ),
               ),
-              Icon(
-                Icons.logout,
-                color: Colors.white,
-                size: 50,
+              GestureDetector(
+                onTap: () {},
+                child: Icon(
+                  Icons.logout,
+                  color: Colors.white,
+                  size: 50,
+                ),
               ),
             ],
           ),

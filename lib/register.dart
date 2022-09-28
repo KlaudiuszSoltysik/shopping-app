@@ -1,7 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'components.dart';
-import 'providers.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:flutter/material.dart";
+import "package:provider/provider.dart";
+import "components.dart";
+import "providers.dart";
 
 class Register extends StatefulWidget {
   @override

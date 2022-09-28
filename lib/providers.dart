@@ -1,7 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
+// ignore_for_file: prefer_const_constructors
+
+import "package:firebase_auth/firebase_auth.dart";
+import "package:flutter/cupertino.dart";
+import "package:google_sign_in/google_sign_in.dart";
+import "package:rflutter_alert/rflutter_alert.dart";
 
 class UserProvider extends ChangeNotifier {
   late String? _email;
@@ -32,7 +34,7 @@ class UserProvider extends ChangeNotifier {
           .show();
     }
     notifyListeners();
-    Navigator.popAndPushNamed(context, "/log-in");
+    Navigator.popAndPushNamed(context, "/shop");
   }
 
   Future emailLogIn(String email, String password, dynamic context) async {
@@ -51,7 +53,7 @@ class UserProvider extends ChangeNotifier {
           .show();
     }
     notifyListeners();
-    Navigator.popAndPushNamed(context, "/log-in");
+    Navigator.popAndPushNamed(context, "/shop");
   }
 
   Future emailRegister(String email, String password, dynamic context) async {
@@ -66,7 +68,6 @@ class UserProvider extends ChangeNotifier {
           .show();
     }
     notifyListeners();
-    Navigator.popAndPushNamed(context, "/register");
   }
 
   Future resetPassword(email, context) async {
