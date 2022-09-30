@@ -67,31 +67,32 @@ class Button extends StatelessWidget {
   }
 }
 
-TextFormField textField(String text, TextEditingController controller) {
-  return TextFormField(
-    validator: (value) {
-      if (value == null || value.isEmpty) {
-        return "Please enter some text";
-      }
-    },
-    controller: controller,
-    keyboardType: TextInputType.number,
-    inputFormatters: [TextInputFormatter],
-    style: TextStyle(
-      color: Colors.white.withOpacity(0.9),
-      fontSize: 24,
-    ),
-    decoration: InputDecoration(
-      errorStyle: TextStyle(color: Colors.teal),
-      labelText: text,
-      labelStyle: TextStyle(
+Padding textField(String text, TextEditingController controller) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return "Please enter some text";
+        }
+      },
+      controller: controller,
+      style: TextStyle(
         color: Colors.white.withOpacity(0.9),
+        fontSize: 18,
       ),
-      filled: true,
-      floatingLabelBehavior: FloatingLabelBehavior.never,
-      fillColor: Colors.white.withOpacity(0.3),
-      border: OutlineInputBorder(
-        borderSide: BorderSide(width: 0, style: BorderStyle.none),
+      decoration: InputDecoration(
+        errorStyle: TextStyle(color: Colors.teal),
+        labelText: text,
+        labelStyle: TextStyle(
+          color: Colors.white.withOpacity(0.9),
+        ),
+        filled: true,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+        fillColor: Colors.white.withOpacity(0.3),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(width: 0, style: BorderStyle.none),
+        ),
       ),
     ),
   );

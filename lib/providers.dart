@@ -6,7 +6,7 @@ import "package:google_sign_in/google_sign_in.dart";
 import "package:rflutter_alert/rflutter_alert.dart";
 
 class UserProvider extends ChangeNotifier {
-  late String? _email;
+  late String? userEmail = null;
 
   Future googleLogIn(dynamic context) async {
     final googleUser = await GoogleSignIn().signIn();
@@ -15,7 +15,7 @@ class UserProvider extends ChangeNotifier {
       return;
     }
 
-    _email = googleUser.email;
+    userEmail = googleUser.email;
 
     final googleAuth = await googleUser.authentication;
 
@@ -42,7 +42,7 @@ class UserProvider extends ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
 
-      _email = FirebaseAuth.instance.currentUser?.email;
+      userEmail = FirebaseAuth.instance.currentUser?.email;
 
       Navigator.popAndPushNamed(context, "/shop");
     } on FirebaseAuthException catch (error) {
@@ -53,7 +53,6 @@ class UserProvider extends ChangeNotifier {
           .show();
     }
     notifyListeners();
-    Navigator.popAndPushNamed(context, "/shop");
   }
 
   Future emailRegister(String email, String password, dynamic context) async {
@@ -66,6 +65,7 @@ class UserProvider extends ChangeNotifier {
     } on FirebaseAuthException catch (error) {
       await Alert(context: context, title: "Try again", desc: error.message)
           .show();
+      Navigator.popAndPushNamed(context, "/register");
     }
     notifyListeners();
   }

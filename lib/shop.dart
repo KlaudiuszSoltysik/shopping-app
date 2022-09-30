@@ -2,7 +2,9 @@
 
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import 'package:shopping_app/providers.dart';
 import "components.dart";
+import "package:provider/provider.dart";
 
 class Shop extends StatefulWidget {
   @override
@@ -30,7 +32,10 @@ class _ShopState extends State<Shop> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/add");
+                  Provider.of<UserProvider>(context, listen: false).userEmail !=
+                          null
+                      ? Navigator.pushNamed(context, "/add")
+                      : Navigator.pushNamed(context, "/log-in");
                 },
                 child: Icon(
                   Icons.add,
