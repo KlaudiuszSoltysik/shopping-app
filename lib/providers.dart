@@ -6,21 +6,17 @@ import "package:google_sign_in/google_sign_in.dart";
 import "package:rflutter_alert/rflutter_alert.dart";
 
 class UserProvider extends ChangeNotifier {
-  late String? userEmail = null;
+  late String? userEmail = "";
 
   Future googleLogIn(dynamic context) async {
     final googleUser = await GoogleSignIn().signIn();
 
-    if (googleUser == null) {
-      return;
-    }
+    userEmail = googleUser?.email;
 
-    userEmail = googleUser.email;
-
-    final googleAuth = await googleUser.authentication;
+    final googleAuth = await googleUser?.authentication;
 
     final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken, idToken: googleAuth.idToken);
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
 
     try {
       await FirebaseAuth.instance.signInWithCredential(credential);
@@ -32,9 +28,9 @@ class UserProvider extends ChangeNotifier {
               title: "SOMETHING WENT WRONG",
               desc: error.message)
           .show();
+      Navigator.popAndPushNamed(context, "/log-in");
     }
     notifyListeners();
-    Navigator.popAndPushNamed(context, "/shop");
   }
 
   Future emailLogIn(String email, String password, dynamic context) async {
@@ -51,6 +47,7 @@ class UserProvider extends ChangeNotifier {
               title: "SOMETHING WENT WRONG",
               desc: error.message)
           .show();
+      Navigator.popAndPushNamed(context, "/log-in");
     }
     notifyListeners();
   }
@@ -70,7 +67,7 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future resetPassword(email, context) async {
+  Future resetPassword(String email, dynamic context) async {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
 

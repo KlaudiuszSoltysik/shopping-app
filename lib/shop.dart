@@ -33,7 +33,7 @@ class _ShopState extends State<Shop> {
               GestureDetector(
                 onTap: () {
                   Provider.of<UserProvider>(context, listen: false).userEmail !=
-                          null
+                          ""
                       ? Navigator.pushNamed(context, "/add")
                       : Navigator.pushNamed(context, "/log-in");
                 },

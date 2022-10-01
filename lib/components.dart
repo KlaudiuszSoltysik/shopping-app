@@ -2,6 +2,9 @@
 
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'dart:io';
+import "package:rflutter_alert/rflutter_alert.dart";
 
 const kBigText = TextStyle(
   color: Colors.white,
@@ -131,4 +134,20 @@ TextFormField authTextField(String text, IconData icon, bool isPassword,
     keyboardType:
         isPassword ? TextInputType.visiblePassword : TextInputType.emailAddress,
   );
+}
+
+class Storage {
+  final FirebaseStorage storage = FirebaseStorage.instance;
+
+  Future upload(String path, String name, dynamic context) async {
+    try {
+      await storage.ref(name).putFile(File(path));
+    } on FirebaseException catch (error) {
+      await Alert(
+              context: context,
+              title: "SOMETHING WENT WRONG",
+              desc: error.message)
+          .show();
+    }
+  }
 }

@@ -16,7 +16,8 @@ class _AddState extends State<Add> {
   TextEditingController descriptionController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  File? image;
+  List<Widget> images = [];
+  List<XFile> imgs = [];
 
   Future addImage() async {
     try {
@@ -26,14 +27,21 @@ class _AddState extends State<Add> {
         return;
       }
       final imageTemp = File(image.path);
+      imgs.add(image);
+
       setState(() {
-        this.image = imageTemp;
+        images.add(Image.file(
+          imageTemp,
+          width: 100,
+        ));
       });
     } catch (error) {}
   }
 
   @override
   Widget build(BuildContext context) {
+    final Storage storage = Storage();
+
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -48,19 +56,32 @@ class _AddState extends State<Add> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+              children: <Widget>[
                 Text(
                   "Your item",
                   textAlign: TextAlign.center,
                   style: kBigText,
                 ),
                 SizedBox(height: 20),
-                IconButton(
-                  iconSize: 60,
-                  onPressed: () => addImage(),
-                  icon: Icon(
-                    Icons.add,
-                    color: Colors.white,
+                images.length < 3
+                    ? IconButton(
+                        iconSize: 60,
+                        onPressed: () => addImage(),
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        ),
+                      )
+                    : Text(
+                        "You can add only 3 images",
+                        textAlign: TextAlign.center,
+                        style: kSmallText,
+                      ),
+                Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: images,
                   ),
                 ),
                 Form(
@@ -149,8 +170,20 @@ class _AddState extends State<Add> {
                 Button(
                   text: "add",
                   function: () {
-                    if (formKey.currentState!.validate() && image != null) {}
+                    if (formKey.currentState!.validate() && images.isNotEmpty) {
+                      for (XFile i in imgs) {
+                        storage.upload(i.path, i.name, context);
+                      }
+                    }
                   },
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Icon(
+                  Icons.shopping_bag_outlined,
+                  size: 240,
+                  color: Colors.white.withOpacity(0.9),
                 ),
               ],
             ),
