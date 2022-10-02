@@ -1,7 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import "package:flutter/material.dart";
 import "components.dart";
+import 'package:provider/provider.dart';
+import 'providers.dart';
 
 class Menu extends StatelessWidget {
   @override
@@ -25,25 +25,29 @@ class Menu extends StatelessWidget {
               style: kBigText,
             ),
             SizedBox(height: 40),
-            Button(
-              function: () {
-                Navigator.pushNamed(context, "/log-in");
-              },
-              text: "log in",
-            ),
+            if (Provider.of<UserProvider>(context, listen: false).userEmail ==
+                "")
+              button(
+                "log in",
+                () {
+                  Navigator.pushNamed(context, "/log-in");
+                },
+              ),
             SizedBox(height: 20),
-            Button(
-              function: () {
-                Navigator.pushNamed(context, "/register");
-              },
-              text: "register",
-            ),
+            if (Provider.of<UserProvider>(context, listen: false).userEmail ==
+                "")
+              button(
+                "register",
+                () {
+                  Navigator.pushNamed(context, "/register");
+                },
+              ),
             SizedBox(height: 20),
-            Button(
-              function: () {
+            button(
+              "continue without logging in",
+              () {
                 Navigator.pushNamed(context, "/shop");
               },
-              text: "continue without logging in",
             ),
             SizedBox(height: 40),
             Icon(

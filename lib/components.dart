@@ -1,10 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
-import "package:rflutter_alert/rflutter_alert.dart";
 
 const kBigText = TextStyle(
   color: Colors.white,
@@ -30,44 +25,36 @@ const kSmallText = TextStyle(
   fontFamily: "Overpass",
 );
 
-class Button extends StatelessWidget {
-  final String text;
-  final VoidCallback function;
-
-  Button({required this.text, required this.function});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: function,
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.3),
-            borderRadius: BorderRadius.all(
-              Radius.circular(30),
-            ),
+GestureDetector button(String text, VoidCallback function) {
+  return GestureDetector(
+    onTap: function,
+    child: Padding(
+      padding: EdgeInsets.all(16),
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.3),
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
           ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Text(
-              text,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                decoration: TextDecoration.none,
-                fontSize: 25,
-                color: Colors.white.withOpacity(0.9),
-                fontWeight: FontWeight.normal,
-                fontFamily: "Overpass",
-              ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              decoration: TextDecoration.none,
+              fontSize: 25,
+              color: Colors.white.withOpacity(0.9),
+              fontWeight: FontWeight.normal,
+              fontFamily: "Overpass",
             ),
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
 }
 
 Padding textField(String text, TextEditingController controller) {
@@ -136,18 +123,91 @@ TextFormField authTextField(String text, IconData icon, bool isPassword,
   );
 }
 
-class Storage {
-  final FirebaseStorage storage = FirebaseStorage.instance;
+GestureDetector itemCard(String id, String title, String price,
+    List<dynamic> imageNames, String user) {
+  return GestureDetector(
+    onTap: () {},
+    child: Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Card(
+        color: Colors.white.withOpacity(0.8),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Image.network(
+                "https://wallpaperaccess.com/full/254908.jpg",
+                height: 200,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: Colors.black,
+                        decoration: TextDecoration.none,
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: "Overpass",
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    "$price PLN",
+                    style: TextStyle(
+                      color: Colors.black,
+                      decoration: TextDecoration.none,
+                      fontSize: 35,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: "Overpass",
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
-  Future upload(String path, String name, dynamic context) async {
-    try {
-      await storage.ref(name).putFile(File(path));
-    } on FirebaseException catch (error) {
-      await Alert(
-              context: context,
-              title: "SOMETHING WENT WRONG",
-              desc: error.message)
-          .show();
-    }
-  }
+// Future<String> downloadURL(String imageName) async {
+//   return await storage.ref(imageName).getDownloadURL();
+// }
+
+class Item {
+  String id;
+  String title;
+  String description;
+  String price;
+  List<String> imageNames;
+  String? user;
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "description": description,
+        "price": price,
+        "imageNames": imageNames,
+        "user": user,
+      };
+
+  static Item fromJson(Map<String, dynamic> json) => Item(
+      json["id"],
+      json["title"],
+      json["description"],
+      json["price"],
+      json["imageNames"],
+      json["user"]);
+
+  Item(this.id, this.title, this.description, this.price, this.imageNames,
+      this.user) {}
 }

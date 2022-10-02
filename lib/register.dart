@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "components.dart";
@@ -65,8 +63,9 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 !isLoading
-                    ? Button(
-                        function: () {
+                    ? button(
+                        "register",
+                        () {
                           if (formKey.currentState!.validate()) {
                             setState(() {
                               isLoading = true;
@@ -76,7 +75,6 @@ class _RegisterState extends State<Register> {
                                     passwordController.text, context);
                           }
                         },
-                        text: "register",
                       )
                     : Center(
                         child: CircularProgressIndicator(),

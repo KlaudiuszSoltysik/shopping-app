@@ -1,10 +1,13 @@
-// ignore_for_file: prefer_uctors
-
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import "components.dart";
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import "package:rflutter_alert/rflutter_alert.dart";
+import "package:provider/provider.dart";
+import 'providers.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class Add extends StatefulWidget {
   @override
@@ -26,22 +29,46 @@ class _AddState extends State<Add> {
       if (image == null) {
         return;
       }
-      final imageTemp = File(image.path);
       imgs.add(image);
 
       setState(() {
         images.add(Image.file(
-          imageTemp,
+          File(image.path),
           width: 100,
         ));
       });
     } catch (error) {}
   }
 
+  Future addItem(String title, String description, String price,
+      List<XFile> imgs, String? user) async {
+    final item = FirebaseFirestore.instance.collection("items").doc();
+    List<String> imageNames = [];
+
+    for (XFile image in imgs) {
+      imageNames.add(image.name);
+    }
+
+    try {
+      await item.set(
+          Item(item.id, title, description, price, imageNames, user).toJson());
+    } catch (exception) {}
+  }
+
+  Future uploadImage(String path, String name) async {
+    try {
+      await FirebaseStorage.instance.ref(name).putFile(File(path));
+    } on FirebaseException catch (error) {
+      await Alert(
+              context: context,
+              title: "SOMETHING WENT WRONG",
+              desc: error.message)
+          .show();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Storage storage = Storage();
-
     return Material(
       child: Container(
         decoration: BoxDecoration(
@@ -167,13 +194,23 @@ class _AddState extends State<Add> {
                     ),
                   ),
                 ),
-                Button(
-                  text: "add",
-                  function: () {
+                button(
+                  "add",
+                  () async {
                     if (formKey.currentState!.validate() && images.isNotEmpty) {
                       for (XFile i in imgs) {
-                        storage.upload(i.path, i.name, context);
+                        uploadImage(i.path, i.name);
                       }
+                      addItem(
+                          titleController.text,
+                          descriptionController.text,
+                          priceController.text,
+                          imgs,
+                          Provider.of<UserProvider>(context, listen: false)
+                              .userEmail);
+
+                      await Alert(context: context, title: "Added").show();
+                      Navigator.of(context).pop();
                     }
                   },
                 ),

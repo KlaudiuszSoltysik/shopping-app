@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import "package:flutter/material.dart";
 import "components.dart";
 import "package:provider/provider.dart";
@@ -66,8 +64,9 @@ class _LogInState extends State<LogIn> {
                   ),
                 ),
                 !isLoading
-                    ? Button(
-                        function: () {
+                    ? button(
+                        "log in",
+                        () {
                           if (formKey.currentState!.validate()) {
                             setState(() {
                               isLoading = true;
@@ -77,7 +76,6 @@ class _LogInState extends State<LogIn> {
                                     passwordController.text, context);
                           }
                         },
-                        text: "log in",
                       )
                     : Center(
                         child: CircularProgressIndicator(),

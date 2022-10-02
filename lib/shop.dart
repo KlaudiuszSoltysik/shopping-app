@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
-import "package:flutter/services.dart";
 import 'package:shopping_app/providers.dart';
 import "components.dart";
 import "package:provider/provider.dart";
@@ -44,19 +42,61 @@ class _ShopState extends State<Shop> {
                 ),
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Provider.of<UserProvider>(context, listen: false).userEmail !=
+                          ""
+                      ? Navigator.pushNamed(context, "/shop")
+                      : Navigator.popAndPushNamed(context, "/log-in");
+                },
                 child: Icon(
-                  Icons.logout,
+                  Icons.account_circle,
                   color: Colors.white,
                   size: 50,
                 ),
               ),
+              if (Provider.of<UserProvider>(context, listen: false).userEmail !=
+                  "")
+                GestureDetector(
+                  onTap: () {
+                    Provider.of<UserProvider>(context, listen: false)
+                        .logout(context);
+                  },
+                  child: Icon(
+                    Icons.logout,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                ),
             ],
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: <Widget>[],
+            children: <Widget>[
+              SizedBox(
+                height: 20,
+              ),
+              StreamBuilder<QuerySnapshot>(
+                  stream: FirebaseFirestore.instance
+                      .collection("items")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      //final items = snapshot.data!;
+                      return ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            DocumentSnapshot doc = snapshot.data!.docs[index];
+                            return itemCard(doc["id"], doc["title"],
+                                doc["price"], doc["imageNames"], doc["user"]);
+                          });
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
+            ],
           ),
         ),
       ),

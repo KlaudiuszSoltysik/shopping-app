@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "components.dart";
@@ -51,14 +49,14 @@ class _ResetState extends State<Reset> {
                         false, emailController),
                   ),
                 ),
-                Button(
-                  function: () {
+                button(
+                  "reset password",
+                  () {
                     if (formKey.currentState!.validate()) {
                       Provider.of<UserProvider>(context, listen: false)
                           .resetPassword(emailController.text, context);
                     }
                   },
-                  text: "reset password",
                 ),
                 SizedBox(height: 40),
                 Icon(

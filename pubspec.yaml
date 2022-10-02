@@ -19,6 +19,7 @@ dependencies:
   rflutter_alert: ^2.0.4
   image_picker: ^0.8.5+3
   firebase_storage: ^10.3.10
+  cloud_firestore: ^3.5.0
 
 flutter_icons:
   android: true
