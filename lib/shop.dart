@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 import 'package:shopping_app/providers.dart';
 import "components.dart";
@@ -10,6 +11,10 @@ class Shop extends StatefulWidget {
 }
 
 class _ShopState extends State<Shop> {
+  Future<String> downloadURL(String imageName) async {
+    return await FirebaseStorage.instance.ref(imageName).getDownloadURL();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -82,15 +87,21 @@ class _ShopState extends State<Shop> {
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      //final items = snapshot.data!;
                       return ListView.builder(
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (context, index) {
                             DocumentSnapshot doc = snapshot.data!.docs[index];
-                            return itemCard(doc["id"], doc["title"],
-                                doc["price"], doc["imageNames"], doc["user"]);
+                            return itemCard(
+                                doc["id"],
+                                doc["title"],
+                                doc["description"],
+                                doc["price"],
+                                doc["imageNames"],
+                                doc["user"],
+                                downloadURL(doc["imageNames"][0]),
+                                context);
                           });
                     } else {
                       return Center(child: CircularProgressIndicator());

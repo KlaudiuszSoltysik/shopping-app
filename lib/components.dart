@@ -115,18 +115,29 @@ TextFormField authTextField(String text, IconData icon, bool isPassword,
       floatingLabelBehavior: FloatingLabelBehavior.never,
       fillColor: Colors.white.withOpacity(0.3),
       border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(30.0),
-          borderSide: BorderSide(width: 0, style: BorderStyle.none)),
+        borderRadius: BorderRadius.circular(30.0),
+        borderSide: BorderSide(width: 0, style: BorderStyle.none),
+      ),
     ),
     keyboardType:
         isPassword ? TextInputType.visiblePassword : TextInputType.emailAddress,
   );
 }
 
-GestureDetector itemCard(String id, String title, String price,
-    List<dynamic> imageNames, String user) {
+GestureDetector itemCard(
+    String id,
+    String title,
+    String description,
+    String price,
+    List<dynamic> imageNames,
+    String user,
+    Future<String> image,
+    dynamic context) {
   return GestureDetector(
-    onTap: () {},
+    onTap: () {
+      Navigator.pushNamed(context, "/product",
+          arguments: Item(id, title, description, price, imageNames, user));
+    },
     child: Padding(
       padding: EdgeInsets.symmetric(vertical: 10),
       child: Card(
@@ -137,10 +148,19 @@ GestureDetector itemCard(String id, String title, String price,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
-              Image.network(
-                "https://wallpaperaccess.com/full/254908.jpg",
-                height: 200,
-              ),
+              FutureBuilder(
+                  future: image,
+                  builder: (context, AsyncSnapshot<String> snapshot) {
+                    if (snapshot.hasData) {
+                      return Image.network(
+                        snapshot.data.toString(),
+                        height: 200,
+                        fit: BoxFit.cover,
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -179,17 +199,13 @@ GestureDetector itemCard(String id, String title, String price,
   );
 }
 
-// Future<String> downloadURL(String imageName) async {
-//   return await storage.ref(imageName).getDownloadURL();
-// }
-
 class Item {
-  String id;
-  String title;
-  String description;
-  String price;
-  List<String> imageNames;
-  String? user;
+  final String id;
+  final String title;
+  final String description;
+  final String price;
+  final List<dynamic> imageNames;
+  final String? user;
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -209,5 +225,5 @@ class Item {
       json["user"]);
 
   Item(this.id, this.title, this.description, this.price, this.imageNames,
-      this.user) {}
+      this.user);
 }

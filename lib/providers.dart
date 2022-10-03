@@ -1,5 +1,5 @@
 import "package:firebase_auth/firebase_auth.dart";
-import "package:flutter/cupertino.dart";
+import 'package:flutter/material.dart';
 import "package:google_sign_in/google_sign_in.dart";
 import "package:rflutter_alert/rflutter_alert.dart";
 
@@ -45,7 +45,7 @@ class UserProvider extends ChangeNotifier {
               title: "SOMETHING WENT WRONG",
               desc: error.message)
           .show();
-      Navigator.popAndPushNamed(context, "/log-in");
+      Navigator.popAndPushNamed(context, "/register");
     }
     notifyListeners();
   }
