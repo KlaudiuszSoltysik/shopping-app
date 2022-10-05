@@ -59,7 +59,7 @@ GestureDetector button(String text, VoidCallback function) {
 
 Padding textField(String text, TextEditingController controller) {
   return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 10),
+    padding: EdgeInsets.symmetric(vertical: 10),
     child: TextFormField(
       validator: (value) {
         if (value == null || value.isEmpty) {

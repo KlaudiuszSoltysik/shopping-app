@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 import "components.dart";
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'providers.dart';
+import 'package:provider/provider.dart';
 
 class Product extends StatefulWidget {
   @override
@@ -9,6 +13,18 @@ class Product extends StatefulWidget {
 }
 
 class _ProductState extends State<Product> {
+  List<int> createList(images) {
+    List<int> list = [];
+    int number = 0;
+
+    for (String i in images) {
+      list.add(number);
+      number++;
+    }
+
+    return list;
+  }
+
   Future<String> downloadURL(String imageName) async {
     return await FirebaseStorage.instance.ref(imageName).getDownloadURL();
   }
@@ -41,7 +57,7 @@ class _ProductState extends State<Product> {
                   SizedBox(height: 20),
                   CarouselSlider(
                     options: CarouselOptions(height: 400.0),
-                    items: [0, 1, 2].map((i) {
+                    items: createList(item.imageNames).map((i) {
                       return Builder(
                         builder: (BuildContext context) {
                           return Container(
@@ -53,14 +69,21 @@ class _ProductState extends State<Product> {
                                 builder:
                                     (context, AsyncSnapshot<String> snapshot) {
                                   if (snapshot.hasData) {
-                                    return Image.network(
-                                      snapshot.data.toString(),
+                                    // return Image.network(
+                                    //   snapshot.data.toString(),
+                                    //   height: 200,
+                                    //   fit: BoxFit.cover,
+                                    return CachedNetworkImage(
+                                      imageUrl: snapshot.data.toString(),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
                                       height: 200,
                                       fit: BoxFit.cover,
                                     );
                                   } else {
                                     return Center(
-                                        child: CircularProgressIndicator());
+                                      child: CircularProgressIndicator(),
+                                    );
                                   }
                                 }),
                           );
@@ -79,6 +102,16 @@ class _ProductState extends State<Product> {
                     style: kSmallText,
                   ),
                   SizedBox(height: 20),
+                  Provider.of<UserProvider>(context, listen: false).userEmail !=
+                          item.user
+                      ? button("message", () {})
+                      : button("delete", () {
+                          FirebaseFirestore.instance
+                              .collection("items")
+                              .doc(item.id)
+                              .delete();
+                          Navigator.pop(context);
+                        }),
                 ],
               ),
             ),
