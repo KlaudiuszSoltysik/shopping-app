@@ -15,5 +15,6 @@
 -let user delete photos at adding item stage  
 -improve searching (no case sensitivity, no entire word and title requirements)  
 -sending photos  
--buy now button
+-buy now button  
+-notifications
 

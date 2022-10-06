@@ -11,6 +11,7 @@ import "reset.dart";
 import "add.dart";
 import 'product.dart';
 import 'account.dart';
+import 'message.dart';
 
 void main() async {
   Provider.debugCheckInvalidValueType = null;
@@ -47,6 +48,7 @@ class MyApp extends StatelessWidget {
         "/add": (context) => Add(),
         "/product": (context) => Product(),
         "/account": (context) => Account(),
+        "/message": (context) => Message(),
       },
     );
   }

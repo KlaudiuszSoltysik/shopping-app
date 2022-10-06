@@ -227,3 +227,36 @@ class Item {
   Item(this.id, this.title, this.description, this.price, this.imageNames,
       this.user);
 }
+
+Padding messageBubble(String text) {
+  return Padding(
+    padding: const EdgeInsets.all(8),
+    child: Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.3),
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 15),
+        child: Text(text, style: kSmallText),
+      ),
+    ),
+  );
+}
+
+class MessageClass {
+  final String message;
+  final String? user;
+
+  Map<String, dynamic> toJson() => {
+        "message": message,
+        "user": user,
+      };
+
+  static MessageClass fromJson(Map<String, dynamic> json) =>
+      MessageClass(json["message"], json["user"]);
+
+  MessageClass(this.message, this.user);
+}

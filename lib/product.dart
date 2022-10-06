@@ -102,16 +102,27 @@ class _ProductState extends State<Product> {
                     style: kSmallText,
                   ),
                   SizedBox(height: 20),
-                  Provider.of<UserProvider>(context, listen: false).userEmail !=
-                          item.user
-                      ? button("message", () {})
-                      : button("delete", () {
-                          FirebaseFirestore.instance
-                              .collection("items")
-                              .doc(item.id)
-                              .delete();
-                          Navigator.pop(context);
-                        }),
+                  if ((Provider.of<UserProvider>(context, listen: false)
+                              .userEmail !=
+                          item.user) &&
+                      (Provider.of<UserProvider>(context, listen: false)
+                              .userEmail !=
+                          ""))
+                    button("message", () {
+                      Navigator.pushNamed(context, "/message",
+                          arguments: Item(item.id, item.title, item.description,
+                              item.price, item.imageNames, item.user));
+                    }),
+                  if (Provider.of<UserProvider>(context, listen: false)
+                          .userEmail ==
+                      item.user)
+                    button("delete", () {
+                      FirebaseFirestore.instance
+                          .collection("items")
+                          .doc(item.id)
+                          .delete();
+                      Navigator.pop(context);
+                    }),
                 ],
               ),
             ),
