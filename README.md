@@ -1,4 +1,5 @@
 # Auction/shopping application
+As of October 8, 2022, I am suspending the project in connection with the beginning of a new semester of studies. It is largely completed with a few fixes and improvements.
 ## Video demonstration: 
 ## Application features:
 -Firebase authentication   
@@ -12,9 +13,9 @@
 -product page with carousel with photos and message button  
 -account page with all users items for sale and delete button  
 ## To do:
--let user delete photos at adding item stage  
--improve searching (no case sensitivity, no entire word and title requirements)  
--sending photos  
+-let user delete photos at add item stage  
+-improve searching (no case sensitivity, no entire title requirements)  
+-sending photos in private message  
 -buy now button  
 -notifications  
 -make messages private
