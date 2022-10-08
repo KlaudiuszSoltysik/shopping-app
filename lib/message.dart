@@ -19,7 +19,7 @@ class _MessageState extends State<Message> {
     lastMessage++;
 
     final message =
-        FirebaseFirestore.instance.collection("message${itemId}").doc();
+        FirebaseFirestore.instance.collection("message$itemId").doc();
 
     try {
       await message.set(MessageClass(messageText, user, lastMessage).toJson());
