@@ -1,5 +1,5 @@
 # Auction/shopping application
-As of October 8, 2022, I am suspending the project in connection with the beginning of a new semester of studies. It is largely completed with a few fixes and improvements.
+As of October 8, 2022, I am suspending the project in connection with the beginning of a new semester of studies. It is largely completed with a few fixes and small improvements left.
 ## Video demonstration: 
 ## Application features:
 -Firebase authentication   
