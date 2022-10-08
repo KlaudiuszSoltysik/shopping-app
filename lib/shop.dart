@@ -6,6 +6,8 @@ import "components.dart";
 import "package:provider/provider.dart";
 
 class Shop extends StatefulWidget {
+  const Shop({super.key});
+
   @override
   State<Shop> createState() => _ShopState();
 }
@@ -19,6 +21,14 @@ class _ShopState extends State<Shop> {
   @override
   void initState() {
     super.initState();
+    if (Provider.of<UserProvider>(context, listen: false).userEmail != "") {
+      stream = FirebaseFirestore.instance
+          .collection("items")
+          .where("user",
+              isNotEqualTo:
+                  Provider.of<UserProvider>(context, listen: false).userEmail)
+          .snapshots();
+    }
     controller.addListener(updateSearchbar);
   }
 
@@ -49,7 +59,7 @@ class _ShopState extends State<Shop> {
             child: TextFormField(
               controller: controller,
               autofocus: true,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
               ),
@@ -82,7 +92,7 @@ class _ShopState extends State<Shop> {
                 onTap: () {
                   addSearchbar();
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.search,
                   color: Colors.white,
                   size: 50,
@@ -94,7 +104,7 @@ class _ShopState extends State<Shop> {
                   onTap: () {
                     Navigator.pushNamed(context, "/add");
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.add,
                     color: Colors.white,
                     size: 50,
@@ -106,7 +116,7 @@ class _ShopState extends State<Shop> {
                   onTap: () {
                     Navigator.pushNamed(context, "/account");
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.account_circle,
                     color: Colors.white,
                     size: 50,
@@ -119,7 +129,7 @@ class _ShopState extends State<Shop> {
                     Provider.of<UserProvider>(context, listen: false)
                         .logout(context);
                   },
-                  child: Icon(
+                  child: const Icon(
                     Icons.logout,
                     color: Colors.white,
                     size: 50,
@@ -134,7 +144,7 @@ class _ShopState extends State<Shop> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     StreamBuilder<QuerySnapshot>(
@@ -142,7 +152,7 @@ class _ShopState extends State<Shop> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
@@ -159,7 +169,8 @@ class _ShopState extends State<Shop> {
                                       context);
                                 });
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(
+                                child: CircularProgressIndicator());
                           }
                         }),
                   ],

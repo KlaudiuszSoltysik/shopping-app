@@ -4,6 +4,8 @@ import "components.dart";
 import "providers.dart";
 
 class Reset extends StatefulWidget {
+  const Reset({super.key});
+
   @override
   State<Reset> createState() => _ResetState();
 }
@@ -16,7 +18,7 @@ class _ResetState extends State<Reset> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.deepOrangeAccent, Colors.amber],
             begin: Alignment.topCenter,
@@ -29,22 +31,22 @@ class _ResetState extends State<Reset> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
+                const Text(
                   "allegro",
                   textAlign: TextAlign.center,
                   style: kBigText,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "We'll send you email with next steps!",
                   textAlign: TextAlign.center,
                   style: kMediumText,
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Form(
                   key: formKey,
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: authTextField("email", Icons.account_circle_rounded,
                         false, emailController),
                   ),
@@ -58,7 +60,7 @@ class _ResetState extends State<Reset> {
                     }
                   },
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Icon(
                   Icons.shopping_bag_outlined,
                   size: 240,

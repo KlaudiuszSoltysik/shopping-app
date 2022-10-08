@@ -10,6 +10,8 @@ import 'providers.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class Add extends StatefulWidget {
+  const Add({super.key});
+
   @override
   State<Add> createState() => _AddState();
 }
@@ -69,160 +71,164 @@ class _AddState extends State<Add> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.deepOrangeAccent, Colors.amber],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: Material(
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.deepOrangeAccent, Colors.amber],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Text(
-                  "Your item",
-                  textAlign: TextAlign.center,
-                  style: kBigText,
-                ),
-                SizedBox(height: 20),
-                images.length < 3
-                    ? IconButton(
-                        iconSize: 60,
-                        onPressed: () => addImage(),
-                        icon: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                        ),
-                      )
-                    : Text(
-                        "You can add only 3 images",
-                        textAlign: TextAlign.center,
-                        style: kSmallText,
-                      ),
-                Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: images,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  const Text(
+                    "Your item",
+                    textAlign: TextAlign.center,
+                    style: kBigText,
                   ),
-                ),
-                Form(
-                  key: formKey,
-                  child: Padding(
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        textField("title", titleController),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: TextFormField(
-                            maxLines: 10,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter some text";
-                              }
-                            },
-                            controller: descriptionController,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Colors.teal),
-                              labelText: "description",
-                              labelStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                              ),
-                              filled: true,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              fillColor: Colors.white.withOpacity(0.3),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                            ),
+                  const SizedBox(height: 20),
+                  images.length < 3
+                      ? IconButton(
+                          iconSize: 60,
+                          onPressed: () => addImage(),
+                          icon: const Icon(
+                            Icons.add,
+                            color: Colors.white,
                           ),
+                        )
+                      : const Text(
+                          "You can add only 3 images",
+                          textAlign: TextAlign.center,
+                          style: kSmallText,
                         ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: TextFormField(
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Please enter some text";
-                              }
-                            },
-                            controller: priceController,
-                            keyboardType: TextInputType.number,
-                            inputFormatters: [
-                              FilteringTextInputFormatter.allow(
-                                RegExp(r"[0-9 . ,]"),
-                              ),
-                            ],
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.9),
-                              fontSize: 18,
-                            ),
-                            decoration: InputDecoration(
-                              errorStyle: TextStyle(color: Colors.teal),
-                              labelText: "price",
-                              labelStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                              ),
-                              filled: true,
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              fillColor: Colors.white.withOpacity(0.3),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  width: 0,
-                                  style: BorderStyle.none,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: images,
                     ),
                   ),
-                ),
-                button(
-                  "add",
-                  () async {
-                    if (formKey.currentState!.validate() && images.isNotEmpty) {
-                      for (XFile i in imgs) {
-                        uploadImage(i.path, i.name);
-                      }
-                      addItem(
-                          titleController.text,
-                          descriptionController.text,
-                          priceController.text,
-                          imgs,
-                          Provider.of<UserProvider>(context, listen: false)
-                              .userEmail);
+                  Form(
+                    key: formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          textField("title", titleController),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: TextFormField(
+                              maxLines: 10,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter some text";
+                                }
+                              },
+                              controller: descriptionController,
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 18,
+                              ),
+                              decoration: InputDecoration(
+                                errorStyle: const TextStyle(color: Colors.teal),
+                                labelText: "description",
+                                labelStyle: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor: Colors.white.withOpacity(0.3),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter some text";
+                                }
+                              },
+                              controller: priceController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r"[0-9 . ,]"),
+                                ),
+                              ],
+                              style: TextStyle(
+                                color: Colors.white.withOpacity(0.9),
+                                fontSize: 18,
+                              ),
+                              decoration: InputDecoration(
+                                errorStyle: const TextStyle(color: Colors.teal),
+                                labelText: "price",
+                                labelStyle: TextStyle(
+                                  color: Colors.white.withOpacity(0.9),
+                                ),
+                                filled: true,
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                                fillColor: Colors.white.withOpacity(0.3),
+                                border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  button(
+                    "add",
+                    () async {
+                      if (formKey.currentState!.validate() &&
+                          images.isNotEmpty) {
+                        for (XFile i in imgs) {
+                          uploadImage(i.path, i.name);
+                        }
+                        addItem(
+                            titleController.text,
+                            descriptionController.text,
+                            priceController.text,
+                            imgs,
+                            Provider.of<UserProvider>(context, listen: false)
+                                .userEmail);
 
-                      await Alert(context: context, title: "Added").show();
-                      Navigator.of(context).pop();
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Icon(
-                  Icons.shopping_bag_outlined,
-                  size: 240,
-                  color: Colors.white.withOpacity(0.9),
-                ),
-              ],
+                        await Alert(context: context, title: "Added").show();
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Icon(
+                    Icons.shopping_bag_outlined,
+                    size: 240,
+                    color: Colors.white.withOpacity(0.9),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

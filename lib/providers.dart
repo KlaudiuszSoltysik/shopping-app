@@ -89,7 +89,7 @@ class UserProvider extends ChangeNotifier {
   Future logout(dynamic context) async {
     await FirebaseAuth.instance.signOut();
     userEmail = "";
-    Navigator.pop(context);
+    Navigator.of(context).popUntil((route) => route.isFirst);
     notifyListeners();
   }
 }

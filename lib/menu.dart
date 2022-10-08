@@ -4,10 +4,12 @@ import 'package:provider/provider.dart';
 import 'providers.dart';
 
 class Menu extends StatelessWidget {
+  const Menu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [Colors.deepOrangeAccent, Colors.amber],
           begin: Alignment.topCenter,
@@ -19,12 +21,12 @@ class Menu extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
+            const Text(
               "allegro",
               textAlign: TextAlign.center,
               style: kBigText,
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             if (Provider.of<UserProvider>(context, listen: false).userEmail ==
                 "")
               button(
@@ -33,7 +35,7 @@ class Menu extends StatelessWidget {
                   Navigator.pushNamed(context, "/log-in");
                 },
               ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             if (Provider.of<UserProvider>(context, listen: false).userEmail ==
                 "")
               button(
@@ -42,14 +44,14 @@ class Menu extends StatelessWidget {
                   Navigator.pushNamed(context, "/register");
                 },
               ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             button(
               "continue without logging in",
               () {
                 Navigator.pushNamed(context, "/shop");
               },
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             Icon(
               Icons.shopping_bag_outlined,
               size: 240,

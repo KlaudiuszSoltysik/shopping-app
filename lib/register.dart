@@ -4,6 +4,8 @@ import "components.dart";
 import "providers.dart";
 
 class Register extends StatefulWidget {
+  const Register({super.key});
+
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -18,7 +20,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.deepOrangeAccent, Colors.amber],
             begin: Alignment.topCenter,
@@ -31,31 +33,31 @@ class _RegisterState extends State<Register> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
+                const Text(
                   "allegro",
                   textAlign: TextAlign.center,
                   style: kBigText,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "Register to use our service",
                   textAlign: TextAlign.center,
                   style: kMediumText,
                 ),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 Form(
                   key: formKey,
                   child: Column(
                     children: <Widget>[
                       Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: authTextField(
                               "email",
                               Icons.account_circle_rounded,
                               false,
                               emailController)),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: authTextField(
                             "password", Icons.lock, true, passwordController),
                       ),
@@ -76,7 +78,7 @@ class _RegisterState extends State<Register> {
                           }
                         },
                       )
-                    : Center(
+                    : const Center(
                         child: CircularProgressIndicator(),
                       ),
               ],

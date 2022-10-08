@@ -6,6 +6,8 @@ import "components.dart";
 import "package:provider/provider.dart";
 
 class Account extends StatefulWidget {
+  const Account({super.key});
+
   @override
   State<Account> createState() => _AccountState();
 }
@@ -26,7 +28,7 @@ class _AccountState extends State<Account> {
               child: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     StreamBuilder<QuerySnapshot>(
@@ -40,24 +42,42 @@ class _AccountState extends State<Account> {
                         builder: (context, snapshot) {
                           if (snapshot.hasData) {
                             return ListView.builder(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (context, index) {
                                   DocumentSnapshot doc =
                                       snapshot.data!.docs[index];
-                                  return itemCard(
-                                      doc["id"],
-                                      doc["title"],
-                                      doc["description"],
-                                      doc["price"],
-                                      doc["imageNames"],
-                                      doc["user"],
-                                      downloadURL(doc["imageNames"][0]),
-                                      context);
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: <Widget>[
+                                      itemCard(
+                                          doc["id"],
+                                          doc["title"],
+                                          doc["description"],
+                                          doc["price"],
+                                          doc["imageNames"],
+                                          doc["user"],
+                                          downloadURL(doc["imageNames"][0]),
+                                          context),
+                                      button("messages", () {
+                                        Navigator.pushNamed(context, "/message",
+                                            arguments: Item(
+                                              doc["id"],
+                                              doc["title"],
+                                              doc["description"],
+                                              doc["price"],
+                                              doc["imageNames"],
+                                              doc["user"],
+                                            ));
+                                      }),
+                                    ],
+                                  );
                                 });
                           } else {
-                            return Center(child: CircularProgressIndicator());
+                            return const Center(
+                                child: CircularProgressIndicator());
                           }
                         }),
                   ],

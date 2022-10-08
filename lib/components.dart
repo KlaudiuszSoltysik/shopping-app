@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import 'package:flutter/services.dart';
 
 const kBigText = TextStyle(
   color: Colors.white,
@@ -29,17 +28,17 @@ GestureDetector button(String text, VoidCallback function) {
   return GestureDetector(
     onTap: function,
     child: Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Container(
-        height: 60,
+        height: 65,
         decoration: BoxDecoration(
           color: Colors.white.withOpacity(0.3),
-          borderRadius: BorderRadius.all(
+          borderRadius: const BorderRadius.all(
             Radius.circular(30),
           ),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 16),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Text(
             text,
             textAlign: TextAlign.center,
@@ -59,7 +58,7 @@ GestureDetector button(String text, VoidCallback function) {
 
 Padding textField(String text, TextEditingController controller) {
   return Padding(
-    padding: EdgeInsets.symmetric(vertical: 10),
+    padding: const EdgeInsets.symmetric(vertical: 10),
     child: TextFormField(
       validator: (value) {
         if (value == null || value.isEmpty) {
@@ -72,7 +71,7 @@ Padding textField(String text, TextEditingController controller) {
         fontSize: 18,
       ),
       decoration: InputDecoration(
-        errorStyle: TextStyle(color: Colors.teal),
+        errorStyle: const TextStyle(color: Colors.teal),
         labelText: text,
         labelStyle: TextStyle(
           color: Colors.white.withOpacity(0.9),
@@ -80,7 +79,7 @@ Padding textField(String text, TextEditingController controller) {
         filled: true,
         floatingLabelBehavior: FloatingLabelBehavior.never,
         fillColor: Colors.white.withOpacity(0.3),
-        border: OutlineInputBorder(
+        border: const OutlineInputBorder(
           borderSide: BorderSide(width: 0, style: BorderStyle.none),
         ),
       ),
@@ -104,7 +103,7 @@ TextFormField authTextField(String text, IconData icon, bool isPassword,
     cursorColor: Colors.white,
     style: TextStyle(color: Colors.white.withOpacity(0.9)),
     decoration: InputDecoration(
-      errorStyle: TextStyle(color: Colors.teal),
+      errorStyle: const TextStyle(color: Colors.teal),
       prefixIcon: Icon(
         icon,
         color: Colors.white70,
@@ -116,7 +115,7 @@ TextFormField authTextField(String text, IconData icon, bool isPassword,
       fillColor: Colors.white.withOpacity(0.3),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(30.0),
-        borderSide: BorderSide(width: 0, style: BorderStyle.none),
+        borderSide: const BorderSide(width: 0, style: BorderStyle.none),
       ),
     ),
     keyboardType:
@@ -139,11 +138,11 @@ GestureDetector itemCard(
           arguments: Item(id, title, description, price, imageNames, user));
     },
     child: Padding(
-      padding: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       child: Card(
         color: Colors.white.withOpacity(0.8),
         child: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.max,
@@ -158,7 +157,7 @@ GestureDetector itemCard(
                         fit: BoxFit.cover,
                       );
                     } else {
-                      return Center(child: CircularProgressIndicator());
+                      return const Center(child: CircularProgressIndicator());
                     }
                   }),
               Row(
@@ -167,7 +166,7 @@ GestureDetector itemCard(
                   Expanded(
                     child: Text(
                       title,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         decoration: TextDecoration.none,
                         fontSize: 35,
@@ -176,12 +175,12 @@ GestureDetector itemCard(
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(
                     "$price PLN",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.black,
                       decoration: TextDecoration.none,
                       fontSize: 35,
@@ -228,35 +227,46 @@ class Item {
       this.user);
 }
 
-Padding messageBubble(String text) {
-  return Padding(
-    padding: const EdgeInsets.all(8),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.3),
-        borderRadius: BorderRadius.all(
-          Radius.circular(20),
+Row messageBubble(String text, bool isMine) {
+  return Row(
+    mainAxisAlignment: isMine ? MainAxisAlignment.end : MainAxisAlignment.start,
+    children: <Widget>[
+      Flexible(
+        child: Padding(
+          padding: isMine
+              ? const EdgeInsets.fromLTRB(70, 10, 10, 10)
+              : const EdgeInsets.fromLTRB(10, 10, 70, 10),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.3),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: Text(
+                text,
+                style: kSmallText,
+              ),
+            ),
+          ),
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 6, horizontal: 15),
-        child: Text(text, style: kSmallText),
-      ),
-    ),
+    ],
   );
 }
 
 class MessageClass {
   final String message;
   final String? user;
+  final int messageCount;
 
-  Map<String, dynamic> toJson() => {
-        "message": message,
-        "user": user,
-      };
+  Map<String, dynamic> toJson() =>
+      {"message": message, "user": user, "messageCount": messageCount};
 
   static MessageClass fromJson(Map<String, dynamic> json) =>
-      MessageClass(json["message"], json["user"]);
+      MessageClass(json["message"], json["user"], json["messageCount"]);
 
-  MessageClass(this.message, this.user);
+  MessageClass(this.message, this.user, this.messageCount);
 }

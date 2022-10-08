@@ -16,5 +16,6 @@
 -improve searching (no case sensitivity, no entire word and title requirements)  
 -sending photos  
 -buy now button  
--notifications
+-notifications  
+-make messages private
 

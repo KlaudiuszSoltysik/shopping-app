@@ -4,6 +4,8 @@ import "package:provider/provider.dart";
 import "providers.dart";
 
 class LogIn extends StatefulWidget {
+  const LogIn({super.key});
+
   @override
   State<LogIn> createState() => _LogInState();
 }
@@ -18,7 +20,7 @@ class _LogInState extends State<LogIn> {
   Widget build(BuildContext context) {
     return Material(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.deepOrangeAccent, Colors.amber],
             begin: Alignment.topCenter,
@@ -31,13 +33,13 @@ class _LogInState extends State<LogIn> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Text(
+                const Text(
                   "allegro",
                   textAlign: TextAlign.center,
                   style: kBigText,
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   "We missed you!",
                   textAlign: TextAlign.center,
                   style: kMediumText,
@@ -46,9 +48,9 @@ class _LogInState extends State<LogIn> {
                   key: formKey,
                   child: Column(
                     children: <Widget>[
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: authTextField(
                             "email",
                             Icons.account_circle_rounded,
@@ -56,7 +58,7 @@ class _LogInState extends State<LogIn> {
                             emailController),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: authTextField(
                             "password", Icons.lock, true, passwordController),
                       ),
@@ -77,15 +79,16 @@ class _LogInState extends State<LogIn> {
                           }
                         },
                       )
-                    : Center(
+                    : const Center(
                         child: CircularProgressIndicator(),
                       ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         "Forgot your password? ",
                         style: kSmallText,
                       ),
@@ -93,8 +96,8 @@ class _LogInState extends State<LogIn> {
                         onTap: () {
                           Navigator.pushNamed(context, "/reset");
                         },
-                        child: Text(
-                          "Reset password",
+                        child: const Text(
+                          "Reset",
                           style: TextStyle(
                             color: Colors.white,
                             decoration: TextDecoration.none,
@@ -107,7 +110,7 @@ class _LogInState extends State<LogIn> {
                     ],
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: EdgeInsets.all(16),
                   child: Text(
                     "Or log in with",
@@ -122,10 +125,9 @@ class _LogInState extends State<LogIn> {
                       onPressed: () {
                         setState(() {
                           isLoading = true;
-                          isLoading =
-                              Provider.of<UserProvider>(context, listen: false)
-                                  .googleLogIn(context) as bool;
                         });
+                        Provider.of<UserProvider>(context, listen: false)
+                            .googleLogIn(context);
                       },
                       icon: Image.asset("assets/google_icon.png"),
                       iconSize: 100,

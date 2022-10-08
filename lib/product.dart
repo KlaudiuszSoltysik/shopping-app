@@ -8,6 +8,8 @@ import 'providers.dart';
 import 'package:provider/provider.dart';
 
 class Product extends StatefulWidget {
+  const Product({super.key});
+
   @override
   State<Product> createState() => _ProductState();
 }
@@ -35,7 +37,7 @@ class _ProductState extends State<Product> {
 
     return Material(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [Colors.deepOrangeAccent, Colors.amber],
             begin: Alignment.topCenter,
@@ -54,7 +56,7 @@ class _ProductState extends State<Product> {
                     item.title,
                     style: kBigText,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   CarouselSlider(
                     options: CarouselOptions(height: 400.0),
                     items: createList(item.imageNames).map((i) {
@@ -62,26 +64,23 @@ class _ProductState extends State<Product> {
                         builder: (BuildContext context) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(color: Colors.amber),
+                            margin: const EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration:
+                                const BoxDecoration(color: Colors.amber),
                             child: FutureBuilder(
                                 future: downloadURL(item.imageNames[i]),
                                 builder:
                                     (context, AsyncSnapshot<String> snapshot) {
                                   if (snapshot.hasData) {
-                                    // return Image.network(
-                                    //   snapshot.data.toString(),
-                                    //   height: 200,
-                                    //   fit: BoxFit.cover,
                                     return CachedNetworkImage(
                                       imageUrl: snapshot.data.toString(),
                                       errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
+                                          const Icon(Icons.error),
                                       height: 200,
                                       fit: BoxFit.cover,
                                     );
                                   } else {
-                                    return Center(
+                                    return const Center(
                                       child: CircularProgressIndicator(),
                                     );
                                   }
@@ -91,17 +90,17 @@ class _ProductState extends State<Product> {
                       );
                     }).toList(),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     "${item.price} PLN",
                     style: kMediumText,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     item.description,
                     style: kSmallText,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   if ((Provider.of<UserProvider>(context, listen: false)
                               .userEmail !=
                           item.user) &&
