@@ -1,6 +1,7 @@
 # Auction/shopping application
 As of October 8, 2022, I am suspending the project in connection with the beginning of a new semester of studies. It is largely completed with a few fixes and small improvements left.
 ## Video demonstration: 
+https://www.youtube.com/watch?v=lsSPg5Bb-YA
 ## Application features:
 -Firebase authentication   
 -register and login using email address and password  
